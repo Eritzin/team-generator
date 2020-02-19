@@ -3,12 +3,10 @@ import React from "react";
 
 
 class MemberCard extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+  state = {
             active:true
         };
-    }
+    
     componentDidMount() {
         const { active } = this.props;
 
@@ -18,7 +16,9 @@ class MemberCard extends React.Component {
     }
     
     handleClick=active=>{
-        const{handleActive,id}=this.props;
+        const{handleActive,obj}=this.props;
+        const {id}=obj;
+
         this.setState({
             active:!active
         });
@@ -28,7 +28,7 @@ class MemberCard extends React.Component {
     render() {
        
          const{active}=this.state;
-         const statusClass=active?"active":"inactive";
+         const statusClass=active? "active":"inactive";
 
         return (
             <div className={`card mb-3 ${statusClass}`} onClick={() => this.handleClick(active)}>

@@ -1,5 +1,18 @@
-.mb-3, .my-3 {
-  margin-bottom: 0!important;
+body {
+  background-color: #dfd6d63d;
+}
+
+.App {
+  max-width: 1000px;
+}
+
+h3 {
+  margin-bottom: 20px;
+}
+
+.mb-3,
+.my-3 {
+  margin-bottom: 0 !important;
   border-radius: 0;
 }
 
@@ -18,33 +31,72 @@
   padding: 10px;
 }
 
-.member-data .image{
+.member-data .image {
   flex: 0.1;
 }
 
 .member-data .image img {
   max-width: 25px;
   border-radius: 50%;
-  border: 1px solid rgba(0,0,0,.125);
+  border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .member-data .title {
   flex: 0.9;
 }
 
-.students, .groups {
+.students,
+.groups {
   text-align: center;
-  border: 1px solid rgba(0,0,0,.125);
+  border: 1px solid rgba(0, 0, 0, 0.125);
   padding: 20px;
 }
 
 .students {
-  width: 30%;
+  width: 25%;
+  background-color: #fafafa;
 }
 
 .groups {
-  width: 70%;
+  width: 75%;
   margin-left: 2%;
+  background-color: #fafafa;
+}
+
+.group {
+  margin: 20px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #dfd6d63d;
+}
+
+.student {
+  background-color: white;
+  flex: 1 25%;
+  max-width: 90px;
+  /* margin: 20px; */
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.student img {
+  margin: 10px;
+  max-width: 50px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.leader {
+  background-color: cornflowerblue;
+  color: white;
+}
+
+.student .name {
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 5px;
 }
 
 .students .title {

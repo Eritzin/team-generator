@@ -1,128 +1,99 @@
 import React from "react";
-import Input from "./Input"
-import MemberCard from"./MemberCards"
+import Input from "./Input";
+import Groups from "./Groups"
+import MemberCard from "./MemberCards";
 import MemberData from "./MemberData";
 import { STUDENTS } from "../configs/data";
+import { image } from 'faker'
 
-
-class Main extends React.Component{
-        state = {
-           activeStudents:false,
-           separateTeam:[]
-        };
+class Main extends React.Component {
+  state = {
+    students: false,
+    maxStudentsPerGroup:0
    
+  };
 
-    componentDidMount(){
-        const activeStudents=new Map(STUDENTS.map(i=>[
-            i.id,{id: i.id, name:i.name, active:i.active}
-        ]));
+  componentDidMount() {
+    const students = new Map(
+      STUDENTS.map(i => [
+        i.id,
+        { id: i.id, 
+          name: i.name, 
+          active: i.active, 
+          image: image.avatar() 
+        }
+      ])
+    );
 
-        this.setState({
-            activeStudents
-        });
-    }
+    this.setState({
+      students
+    });
+  }
 
-    handleActive = (id) => {
+  handleActive = id => {
+    const {students } = this.state;
+    //which one is clicked??//
+    const student = students.get(id);
 
-        const { activeStudents } = this.state;
-        
-        const student = activeStudents.get(id);
+    // ! => NOT IN operator
+    student.active = !student.active;
 
-        // ! => NOT IN operator
-        student.active = !student.active;
+    this.setState({
+      students
+    });
+  };
 
-        this.setState({
-            activeStudents
-        });
-    }
+  handleMaxStudentsInput=e=>{
+      this.setState({
+          maxStudentsPerGroup:e.target.value
+      });
+  };
+
+  renderCards = () => {
+    // auxiliary array
+    const displayStudents = [];
+    const { students } = this.state;
+    //if students is not empty....
+    students &&
+      students.forEach(i => {
+        displayStudents.push(
+          <MemberCard handleActive={this.handleActive} obj={i}>
+            <MemberData obj={i} />
+          </MemberCard>
+        );
+      });
+    console.log(students);
+    // return the auxiliary array to render
+    return displayStudents;
+  };
 
   
-
-    renderCards = () => {
-        // auxiliary array
-       const displayStudents=[]
-        const { activeStudents } = this.state;
-
-        activeStudents && activeStudents.forEach(i => {
-            displayStudents.push(
-                <MemberCard key={i.id} handleActive={this.handleActive} id={i.id} active={i.active}>
-                    <MemberData name={i.name} />
-                </MemberCard>
-            );
-        });
-           console.log(displayStudents);
-        // return the auxiliary array to render
-        return displayStudents;
-    };
-
-    handleGenerate=(searchInput)=> {
-        const {activeStudents}=this.state
-        const array1= Array.from(activeStudents.entries())
-        console.log(searchInput)
-        console.log(array1[0][1].active)
-        const generateTeam=[];
-         
-        for(let i=0; i<array1.length; i++){
-
-             if(array1[i][1].active){
-                generateTeam.push(array1[i][1].name)
-             }
-         }
-         
-       
-        const numberOfTeam=Math.round(generateTeam.length/searchInput)
-        console.log(numberOfTeam)
-         
-          for(let i=generateTeam.length-1; i>0; i--){
-                   let j =Math.ceil(Math.random()*i);
-                   let temp=generateTeam[i];
-                   generateTeam[i]=generateTeam[j];
-                   generateTeam[j]=temp;
-          }
-
-          console.log("generateTeam"+generateTeam)
-         
-          let separateTeam =[];
-         for(let i=1; i<=numberOfTeam; i++){
-            separateTeam.push("Team "+i+":"+generateTeam.slice(searchInput*i-searchInput,i*searchInput));
-         }
-         console.log(separateTeam)
-        const listItems=separateTeam.map((team)=><li>{team}</li>);
-         
-        
-      /*  return (<ul>{listItems}</ul>);*/
-      this.setState({
-        separateTeam:listItems
-      })
-    }
-
-
-render() {
-    
+  render() {
     const { renderCards } = this;
-    const { activeStudents,separateTeam } = this.state;
-   
-    
-    return(
-    <>
-        <Input displayStudents={this.displayStudents} handleGenerate={this.handleGenerate}/>
+    const { students, maxStudentsPerGroup } = this.state;
+
+    return (
+      <>
+        
         <div className="wrapper">
-            <div className="students">
-              <h3>Students</h3>
-              { renderCards() }
-            </div>
-            {activeStudents && 
-            <div className="groups">
-                    <p>Active Students obj:</p>
-                    <ul>{separateTeam}</ul>
-                    {/*JSON.stringify(Array.from(activeStudents.entries()))*/}
-                   
-            </div>}
-            
+          <div className="students">
+           <h3>
+            Students{""}
+           <Input handleMaxStudentsInput={this.handleMaxStudentsInput}/>{""}
+           </h3>
+            {renderCards()}
+          </div>
+          {students && (
+            <Groups 
+            students={students}
+            maxStudentsPerGroup={maxStudentsPerGroup}
+            />
+           
+          )}
         </div>
-        </>
-        );
-}
+      </>
+    );
+  }
 }
 
 export default Main;

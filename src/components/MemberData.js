@@ -1,20 +1,21 @@
 import React from "react";
-import { image } from 'faker';
+
 
 const MemberData = (props) => {
 
-    const imageURL = image.avatar();
+    const {image, name}=props.obj;
   
     
 
     return (
+       
         <>
            <div className="member-data">
                 <div className="image">
-                    <img src={imageURL} className="card-img" alt="..." />
+                    <img src={image} className="card-img" alt={name} />
                 </div>
                 <div className="title">
-                    <span className="card-title">{props.name}</span>
+                    <span className="card-title">{name}</span>
                 </div>
             </div>
         </>
